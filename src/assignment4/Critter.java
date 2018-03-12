@@ -333,10 +333,18 @@ public abstract class Critter {
 		// Complete this method.
 		
 		String[][] world = new String[82][162];
+		
+		for(int y=0; y < 82; y++) {
+			for(int x=0; x<162; x++) {
+				world[y][x]=" ";
+			}
+		}
+		
 		world[0][0] = "+";
-		world[0][81] = "+";
-		world[161][81] = "+";
-		world[161][0] = "+";
+		world[0][161] = "+";
+		world[81][161] = "+";
+		world[81][0] = "+";
+		
 		
 		for(int x = 1; x < 161; x++) {
 			world[0][x]= "-";
@@ -350,11 +358,11 @@ public abstract class Critter {
 		
 		for(Critter c: population) {
 			if(c instanceof Algae) {
-				world[c.x_coord + 1][c.y_coord + 1] = "@";
+				world[c.y_coord + 1][c.x_coord + 1] = "@";
 			}
 			
 			else if(c instanceof Craig) {
-				world[c.x_coord + 1][c.y_coord + 1] = "c";
+				world[c.y_coord + 1][c.x_coord + 1] = "c";
 			}
 		}
 		

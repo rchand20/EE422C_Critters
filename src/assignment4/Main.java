@@ -88,30 +88,32 @@ public class Main {
         
    
         // System.out.println("GLHF");
-        System.out.println("critters>");
-        String input = kb.next();
+        	
+        while(true) {
+        	System.out.println("critters>");
+        	String input = kb.next();
+        	
+        	switch(input) {
         
-        switch(input) {
+        	case "quit" :
+        		System.exit(0);
+        		break;
         
-        case "quit" :
-        	System.exit(0);
-        	break;
-        
-        case "show" :
-        	Critter.displayWorld();
-        	break;
-        
-        case "step" :
-        	Critter.worldTimeStep();
-        	break;
-        
+        	case "show" :
+        		Critter.displayWorld();
+        		break;
+        		
+        	case "step" :
+        		Critter.worldTimeStep();
+        		break;
         }
+       }
         
         
         
         
         /* Write your code above */
-        System.out.flush();
+        //System.out.flush();
 
     }
 }
