@@ -104,8 +104,17 @@ public class Main {
         		break;
         		
         	case "step" :
-        		Critter.worldTimeStep();
+        		int steps = 1;
+        		if(kb.hasNext()) { steps = kb.nextInt(); }
+        		for(int i = 0; i < steps; i++) {
+        			Critter.worldTimeStep();
+        		}
+        		
         		break;
+        	
+        	case "seed" :
+        		long seed = kb.nextLong();
+        		Critter.setSeed(seed);
         }
        }
         

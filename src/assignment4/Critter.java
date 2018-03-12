@@ -57,126 +57,211 @@ public abstract class Critter {
 	 */
 	protected final void walk(int direction) {
 		if(direction==0) {
-			if(x_coord==159) {
-				x_coord=0;
-			}
-			else {
-				x_coord+=1;
-			}
+			x_coord = moveX(1);
 		}
 		
 		if(direction==1) {
-			if(x_coord==159 && y_coord==79) {
-				x_coord=0;
-				y_coord=0;
-			}
-			else if(x_coord==159) {
-				x_coord=0;
-				y_coord+=1;
-			}
-			else if(y_coord==79) {
-				x_coord+=1;
-				y_coord=0;
-			}
-			else {
-				x_coord+=1;
-				y_coord+=1;
-			}
+			x_coord = moveX(1);
+			y_coord = moveY(-1);
 		}
 		
 		if(direction==2) {
-			if(y_coord==79) {
-				y_coord=0;
-			}
-			else {
-				y_coord+=1;
-			}
+			y_coord = moveY(-1);
 		}
 		
 		if(direction==3) {
-			if(x_coord==0 && y_coord==79) {
-				x_coord=159;
-				y_coord=0;
-			}
-			else if(x_coord==0) {
-				x_coord=159;
-				y_coord+=1;
-			}
-			else if(y_coord==79) {
-				x_coord-=1;
-				y_coord=0;
-			}
-			else {
-				x_coord-=1;
-				y_coord+=1;
-			}
+			x_coord = moveX(-1);
+			y_coord = moveY(-1);
 		}
 		
 		if(direction==4) {
-			if(x_coord==0) {
-				x_coord=159;
-			}
-			else {
-				x_coord-=1;
-			}
+			x_coord = moveX(-1);
 		}
 		
 		if(direction==5) {
-			if(x_coord==0 && y_coord==0) {
-				x_coord=159;
-				y_coord=79;
-			}
-			else if(x_coord==0) {
-				x_coord=159;
-				y_coord-=1;
-			}
-			else if(y_coord==0) {
-				x_coord-=1;
-				y_coord=79;
-			}
-			else {
-				x_coord-=1;
-				y_coord-=1;
-			}
+			x_coord = moveX(-1);
+			y_coord = moveY(1);
 		}
 		
 		if(direction==6) {
-			if(y_coord==0) {
-				y_coord=79;
-			}
-			else {
-				y_coord-=1;
-			}
+			y_coord = moveY(1);
 		}
 		
 		if(direction==7) {
-			if(x_coord==159 && y_coord==0) {
-				x_coord=0;
-				y_coord=79;
-			}
-			else if(x_coord==159) {
-				x_coord=0;
-				y_coord-=1;
-			}
-			else if(y_coord==0) {
-				x_coord+=1;
-				y_coord=79;
-			}
-			else {
-				x_coord+=1;
-				y_coord-=1;
-			}
+			x_coord = moveX(1);
+			y_coord = moveY(1);
+		}
+		energy-= Params.walk_energy_cost;
+	}
+	
+	protected final void run(int direction) {
+		if(direction==0) {
+			x_coord = moveX(2);
+		}
+		
+		if(direction==1) {
+			x_coord = moveX(2);
+			y_coord = moveY(-2);
+		}
+		
+		if(direction==2) {
+			y_coord = moveY(-2);
+		}
+		
+		if(direction==3) {
+			x_coord = moveX(-2);
+			y_coord = moveY(-2);
+		}
+		
+		if(direction==4) {
+			x_coord = moveX(-2);
+		}
+		
+		if(direction==5) {
+			x_coord = moveX(-2);
+			y_coord = moveY(2);
+		}
+		
+		if(direction==6) {
+			y_coord = moveY(2);
+		}
+		
+		if(direction==7) {
+			x_coord = moveX(2);
+			y_coord = moveY(2);
 		}
 		
 		energy-= Params.walk_energy_cost;
 	}
 	
-	protected final void run(int direction) {
-	}
-	
 	protected final void reproduce(Critter offspring, int direction) {
+		if(getEnergy() < Params.min_reproduce_energy) {
+			return;
+		}
+		
+		offspring.energy = energy/2;
+		energy = energy/2 + 1;
+		
+		
+		if(direction==0) {
+			offspring.y_coord = this.y_coord;
+			if(x_coord == 159) {
+				offspring.x_coord = 0;
+			}
+			
+			else {
+				offspring.x_coord = this.x_coord + 1;
+			}
+		}
+		
+		if(direction==1) {
+			if(x_coord==159 && y_coord==79) {
+				offspring.x_coord=0;
+				offspring.y_coord=0;
+			}
+			else if(x_coord==159) {
+				x_coord=0;
+				offspring.y_coord = this.y_coord + 1;
+			}
+			else if(y_coord==79) {
+				offspring.x_coord=this.x_coord + 1;
+				offspring.y_coord=0;
+			}
+			else {
+				offspring.x_coord=this.x_coord + 1;
+				offspring.y_coord = this.y_coord + 1;
+			}
+		}
+		
+		if(direction==2) {
+			if(y_coord==79) {
+				offspring.y_coord=0;
+			}
+			else {
+				offspring.y_coord = this.y_coord + 1;
+			}
+		}
+		
+		if(direction==3) {
+			if(x_coord==0 && y_coord==79) {
+				offspring.x_coord=159;
+				offspring.y_coord=0;
+			}
+			else if(x_coord==0) {
+				offspring.x_coord=159;
+				offspring.y_coord = this.y_coord + 1;
+			}
+			else if(y_coord==79) {
+				offspring.x_coord = this.x_coord - 1;
+				offspring.y_coord=0;
+			}
+			else {
+				offspring.x_coord = this.x_coord - 1;
+				offspring.y_coord = this.y_coord + 1;
+			}
+		}
+		
+		if(direction==4) {
+			if(x_coord==0) {
+				offspring.x_coord=159;
+				offspring.y_coord= this.y_coord;
+			}
+			else {
+				offspring.x_coord=this.x_coord-1;
+				offspring.y_coord= this.y_coord;
+			}
+		}
+		
+		if(direction==5) {
+			if(x_coord==0 && y_coord==0) {
+				offspring.x_coord=159;
+				offspring.y_coord=79;
+			}
+			else if(x_coord==0) {
+				offspring.x_coord=159;
+				offspring.y_coord=this.y_coord-1;
+			}
+			else if(y_coord==0) {
+				offspring.x_coord=this.x_coord-1;
+				offspring.y_coord=79;
+			}
+			else {
+				offspring.x_coord= this.x_coord-1;
+				offspring.y_coord= this.y_coord-1;
+			}
+		}
+		
+		if(direction==6) {
+			if(y_coord==0) {
+				offspring.y_coord=79;
+			}
+			else {
+				offspring.y_coord= this.y_coord-1;
+			}
+		}
+		
+		if(direction==7) {
+			if(x_coord==159 && y_coord==0) {
+				offspring.x_coord=0;
+				offspring.y_coord=79;
+			}
+			else if(x_coord==159) {
+				offspring.x_coord=0;
+				offspring.y_coord= this.y_coord-1;
+			}
+			else if(y_coord==0) {
+				offspring.x_coord=this.x_coord+1;
+				offspring.y_coord=79;
+			}
+			else {
+				offspring.x_coord = this.x_coord + 1;
+				offspring.y_coord= this.y_coord-1;
+			}
+		}
+		
+		babies.add(offspring);
 	}
-
+		
 	public abstract void doTimeStep();
 	public abstract boolean fight(String oponent);
 	
@@ -317,6 +402,77 @@ public abstract class Critter {
 			c.energy -= Params.rest_energy_cost;
 		}
 		
+		for(Critter a : population) {
+			for(Critter b : population) {
+				if(a == b) {
+					continue;
+				}
+				
+				if((a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)) {
+					if(a.energy > 0 && b.energy > 0) {
+						boolean aFight = a.fight(b.toString());
+						boolean bFight = b.fight(a.toString());
+						
+						
+						if((a.x_coord == b.x_coord) && (a.y_coord == b.y_coord)) {
+							int aRoll=0;
+							if(aFight) {
+								aRoll= getRandomInt(a.energy);
+							}
+							
+							int bRoll=0;
+							if(bFight) {
+								bRoll= getRandomInt(b.energy);
+							}
+							
+							if(aRoll==bRoll) {
+								int tie= getRandomInt(2);
+								if(tie==0) {
+									//a won
+									a.energy += b.energy/2;
+									b.energy = 0;
+								}
+								else {
+									//b won
+									b.energy += a.energy/2;
+									a.energy = 0;
+								}
+							}
+							
+							else if(aRoll> bRoll){
+								a.energy += b.energy/2;
+								b.energy = 0;
+							}
+							
+							else {
+								b.energy += a.energy/2;
+								a.energy = 0;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		for(Critter c:population) {
+			c.energy -= Params.rest_energy_cost;
+		}
+		
+		for (int i  = 0; i < Params.refresh_algae_count; i += 1) {
+			try {
+				Critter.makeCritter("project4.Algae");
+			} catch (InvalidCritterException e) {
+				
+			}
+		}
+		
+		for(Critter c : babies) {
+			population.add(c);
+		}
+		
+		java.util.ArrayList<Critter> temp = new java.util.ArrayList<Critter>(babies);
+		babies.removeAll(temp);
+		
 		for(Critter c: population) {
 			if(c.energy <= 0) {
 				population.remove(c);
@@ -368,10 +524,31 @@ public abstract class Critter {
 		
 		for(int y=0; y < 82; y++) {
 			for(int x=0; x<162; x++) {
-				System.out.print(world[y][x]);
+				world[x][y].toString();
 			}
 			System.out.println();
 		}
 	}
+	
+	private int moveX(int steps) {
+		if ((x_coord + steps) < 0){
+			return (Params.world_width - steps);
+		} 
+		else if ((x_coord + steps) > (Params.world_width - 1)){
+			return (steps - 1);
+		}
+		else {return x_coord += steps;}
+	}
+
+	private int moveY(int steps) {
+		if ((y_coord + steps) < 0){
+			return (Params.world_height - steps);
+		} 
+		else if ((y_coord + steps) > (Params.world_height - 1)){
+			return (steps - 1);
+		}
+		else {return y_coord += steps;}
+	}
+	
 	
 }
