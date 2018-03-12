@@ -51,6 +51,10 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
+	/**
+	 * This function changes the position dependent on the direction it is WALKING and subtracts the amount of energy for walking 
+	 * @param direction
+	 */
 	protected final void walk(int direction) {
 		if(direction==0) {
 			if(x_coord==159) {
@@ -299,8 +303,13 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 		// Complete this method.
+		
+		
 	}
-	
+	/**
+	 * This function implements doTimeStep for every critter in the collection
+	 * Then it removes all dead critters from the collection
+	 */
 	public static void worldTimeStep() {
 		// Complete this method.
 		for(Critter c : population) {
@@ -315,7 +324,46 @@ public abstract class Critter {
 		}
 	}
 	
+	/**
+	 * This method creates a two dimensional array to store the grid
+	 * It places all the algae and critters in the array
+	 * Then it prints the array
+	 */
 	public static void displayWorld() {
 		// Complete this method.
+		
+		String[][] world = new String[82][162];
+		world[0][0] = "+";
+		world[0][81] = "+";
+		world[161][81] = "+";
+		world[161][0] = "+";
+		
+		for(int x = 1; x < 161; x++) {
+			world[0][x]= "-";
+			world[81][x]= "-";
+		}
+		
+		for(int y= 1; y < 81; y++) {
+			world[y][0]= "|";
+			world[y][161]= "|";
+		}
+		
+		for(Critter c: population) {
+			if(c instanceof Algae) {
+				world[c.x_coord + 1][c.y_coord + 1] = "@";
+			}
+			
+			else if(c instanceof Craig) {
+				world[c.x_coord + 1][c.y_coord + 1] = "c";
+			}
+		}
+		
+		for(int y=0; y < 82; y++) {
+			for(int x=0; x<162; x++) {
+				System.out.print(world[y][x]);
+			}
+			System.out.println();
+		}
 	}
+	
 }

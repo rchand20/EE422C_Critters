@@ -70,7 +70,45 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
+        for(int i = 0;i<100;i++) {
+        	try {
+				Critter.makeCritter("assignment4.Algae");
+			} catch (InvalidCritterException e) {
+
+			}
+        }
+        
+        for(int i = 0; i < 25; i++) {
+        	try {
+				Critter.makeCritter("assignment4.Craig");
+			} catch (InvalidCritterException e) {
+
+			}
+        }
+        
+   
         // System.out.println("GLHF");
+        System.out.println("critters>");
+        String input = kb.next();
+        
+        switch(input) {
+        
+        case "quit" :
+        	System.exit(0);
+        	break;
+        
+        case "show" :
+        	Critter.displayWorld();
+        	break;
+        
+        case "step" :
+        	Critter.worldTimeStep();
+        	break;
+        
+        }
+        
+        
+        
         
         /* Write your code above */
         System.out.flush();
