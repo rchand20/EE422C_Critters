@@ -69,7 +69,7 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
+        /*
         for(int i = 0;i<100;i++) {
         	try {
 				Critter.makeCritter("assignment4.Algae");
@@ -86,14 +86,32 @@ public class Main {
 			}
         }
         
+        for(int i = 0; i < 15; i++) {
+        	try {
+				Critter.makeCritter("assignment4.Lucky");
+			} catch (InvalidCritterException e) {
+
+			}
+        }
+        
+        for(int i = 0; i < 20; i++) {
+        	try {
+        		Critter.makeCritter("assignment4.Rishab1");
+        	} catch (InvalidCritterException e) {
+        		
+        	}
+        }
+        */
    
         // System.out.println("GLHF");
         	
         while(true) {
         	System.out.println("critters>");
-        	String input = kb.next();
+        	String input = kb.nextLine();
+        	String[] arguments = input.split(" ");
         	
-        	switch(input) {
+        	
+        	switch(arguments[0].toLowerCase()) {
         
         	case "quit" :
         		System.exit(0);
@@ -101,11 +119,27 @@ public class Main {
         
         	case "show" :
         		Critter.displayWorld();
+        		try {
+					System.out.println(Critter.getInstances("assignment4.Lucky").size());
+				} catch (InvalidCritterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		break;
         		
         	case "step" :
         		int steps = 1;
-        		if(kb.hasNext()) { steps = kb.nextInt(); }
+        		if(arguments.length>2) {
+        			System.out.println("invalid command: " + input);
+        		}
+        		else { 
+        			try {
+        				steps = Integer.parseInt(arguments[1]); 
+        			}
+        			catch(ArrayIndexOutOfBoundsException e){
+        				steps=1;
+        			}
+        		}
         		for(int i = 0; i < steps; i++) {
         			Critter.worldTimeStep();
         		}
@@ -113,8 +147,30 @@ public class Main {
         		break;
         	
         	case "seed" :
-        		long seed = kb.nextLong();
-        		Critter.setSeed(seed);
+        		if(arguments.length != 2) {
+        			System.out.println("invalid command: " + input);
+        		}
+        		else {
+        			long seed = Integer.parseInt(arguments[1]);
+            		Critter.setSeed(seed);
+        		}
+        		
+        		break;
+        		
+        	case "make" :
+        		if(arguments.length != 3) {
+        			System.out.println("invalid command: " + input);
+        		}
+        		else {
+        			for(int c = 0; c < Integer.parseInt(arguments[2]); c++ ) {
+        				try {
+        					Critter.makeCritter(arguments[1]);
+        				}
+        				catch(InvalidCritterException e){
+        					System.out.println("error processing: "+ input);
+        				}
+        			}
+        		}
         }
        }
         
