@@ -14,7 +14,10 @@ package assignment4;
 
 import java.util.List;
 import java.util.Scanner;
+
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 
 /*
@@ -191,7 +194,15 @@ public class Main {
 				else {
 					try {
 						List<Critter> stats = Critter.getInstances(arguments[1]);
-						Critter.runStats(stats);
+						Class newCritter = Class.forName(arguments[1]);
+						Class[] paramList = new Class[1];
+						
+						paramList[0] = java.util.List.class;				
+						
+						Method m = newCritter.getMethod("runStats", paramList);
+						
+						m.invoke(newCritter, stats);
+						
 					} catch (Exception e) {
 						System.out.println("error processing: " + input);
 					}

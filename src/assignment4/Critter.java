@@ -16,7 +16,6 @@ package assignment4;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import com.sun.org.apache.xml.internal.security.encryption.CipherReference;
 
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -338,7 +337,9 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 		// Complete this method.
-
+		population.clear();
+		babies.clear();
+		return;
 
 	}
 	/**

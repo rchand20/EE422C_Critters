@@ -2,7 +2,7 @@ package assignment4;
 
 import java.util.*;
 
-public class Rishab1 extends Critter.TestCritter {
+public class Rishab1 extends Critter {
 	
 	private boolean ran;
 	private static int numRuns;
@@ -36,8 +36,18 @@ public class Rishab1 extends Critter.TestCritter {
 		}
 		
 		if (getEnergy() > 77) {
-			Rishab1 child = new Rishab1();
-			reproduce(child, Critter.getRandomInt(8));
+			Rishab1 child1 = new Rishab1();
+			Rishab1 child2 = new Rishab1(); 
+			//position of child 1
+			int pos1 = Critter.getRandomInt(8);
+			//position of child 2
+			int pos2 = pos1 + 1;
+			if(pos2 == 8) {
+				pos2 = 0;
+			}
+			
+			reproduce(child1, pos1);
+			reproduce(child2, pos2);
 		}
 	}
 
