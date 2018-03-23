@@ -15,6 +15,8 @@ package assignment4;
 import java.util.List;
 import java.util.Scanner;
 
+import com.sun.javafx.property.adapter.JavaBeanQuickAccessor;
+
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -71,46 +73,10 @@ public class Main {
 			kb = new Scanner(System.in); // use keyboard and console
 		}
 
-		/* Do not alter the code above for your submission. */
-		/* Write your code below. */
-		/*
-        for(int i = 0;i<100;i++) {
-        	try {
-				Critter.makeCritter("assignment4.Algae");
-			} catch (InvalidCritterException e) {
-
-			}
-        }
-
-        for(int i = 0; i < 25; i++) {
-        	try {
-				Critter.makeCritter("assignment4.Craig");
-			} catch (InvalidCritterException e) {
-
-			}
-        }
-
-        for(int i = 0; i < 15; i++) {
-        	try {
-				Critter.makeCritter("assignment4.Lucky");
-			} catch (InvalidCritterException e) {
-
-			}
-        }
-
-        for(int i = 0; i < 20; i++) {
-        	try {
-        		Critter.makeCritter("assignment4.Rishab1");
-        	} catch (InvalidCritterException e) {
-
-        	}
-        }
-		 */
-
-		// System.out.println("GLHF");
-
-		while(true) {
-			System.out.println("critters>");
+		//while loop takes in keyboard commands till the user inputs quit
+		boolean quit = true;// indicate when the user has quit the program
+		while(quit) {
+			System.out.print("critters>s");
 			String input = kb.nextLine();
 			String[] arguments = input.split(" ");
 
@@ -118,46 +84,50 @@ public class Main {
 			switch(arguments[0].toLowerCase()) {
 
 			case "quit" :
-				System.exit(0);
+				quit = false;
 				break;
 
+			//calls display world to show the world
 			case "show" :
 				if(arguments.length >1) {
-					System.out.println("invalid command: " + input);
+					System.out.println("error processing: "+ input);
 				}
 				else {
 					Critter.displayWorld();
-					try {
-						System.out.println(Critter.getInstances("assignment4.Algae").size());
-					} catch (InvalidCritterException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
 				break;
-
+				
+			//calls worldTimeStep to take the indicated number of steps that a user inputs
 			case "step" :
 				int steps = 1;
 				if(arguments.length>2) {
-					System.out.println("invalid command: " + input);
+					System.out.println("error processing: "+ input);
 				}
 				else { 
 					try {
 						steps = Integer.parseInt(arguments[1]); 
 					}
-					catch(ArrayIndexOutOfBoundsException e){
-						steps=1;
+					catch(Exception e){
+						if(e instanceof ArrayIndexOutOfBoundsException) {
+							steps=1;
+						}
+						else {
+							System.out.println("error processing: " + input);
+						}
+							
 					}
 				}
+				//calls worldTimeStep the indicated number of steps that a user inputs
 				for(int i = 0; i < steps; i++) {
 					Critter.worldTimeStep();
 				}
 
 				break;
 
+			//when a user inputs seed it will set the seed for the random number genrator
 			case "seed" :
 				if(arguments.length != 2) {
-					System.out.println("invalid command: " + input);
+					System.out.println("error processing: "+ input);
 				}
 				else {
 					long seed = Integer.parseInt(arguments[1]);
@@ -166,12 +136,14 @@ public class Main {
 
 				break;
 
+			//makes the a critter when a user inputs the command make and an indicated type as well as a quantity
 			case "make" :
 				if(arguments.length != 3) {
-					System.out.println("invalid command: " + input);
+					System.out.println("error processing: "+ input);
 				}
 				else {
 					try {
+						//makes the user specified number of critters
 						for(int c = 0; c < Integer.parseInt(arguments[2]); c++ ) {
 
 							Critter.makeCritter(arguments[1]);
@@ -186,22 +158,25 @@ public class Main {
 				}
 				break;
 
+			//prints the stats for a specific critter indicated by the user
 			case "stats" :
 				if(arguments.length != 2) {
-					System.out.println("invalid command: " + input);
+					System.out.println("error processing: "+ input);
 				}
 
 				else {
 					try {
-						List<Critter> stats = Critter.getInstances(arguments[1]);
-						Class newCritter = Class.forName(arguments[1]);
+						
+						String className = arguments[1];
+						List<Critter> stats = Critter.getInstances(className);
+						Class newCritter = Class.forName("assignment4." + className);
 						Class[] paramList = new Class[1];
 						
 						paramList[0] = java.util.List.class;				
 						
-						Method m = newCritter.getMethod("runStats", paramList);
+						Method m = newCritter.getMethod("runStats", paramList);//creates a method object for the specified run stats method
 						
-						m.invoke(newCritter, stats);
+						m.invoke(newCritter, stats);//invokes the run stats method through the method objecy
 						
 					} catch (Exception e) {
 						System.out.println("error processing: " + input);
