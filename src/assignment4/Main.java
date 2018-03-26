@@ -15,7 +15,6 @@ package assignment4;
 import java.util.List;
 import java.util.Scanner;
 
-import com.sun.javafx.property.adapter.JavaBeanQuickAccessor;
 
 import java.io.*;
 import java.lang.reflect.Constructor;

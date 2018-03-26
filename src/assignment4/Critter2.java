@@ -47,6 +47,8 @@ public class Critter2 extends Critter.TestCritter {
 			reproduce(child5, 5);
 			reproduce(child6, 6);
 			reproduce(child7, 7);
+			
+			age++;
 		}
 	}
 
